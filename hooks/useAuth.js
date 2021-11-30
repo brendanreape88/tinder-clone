@@ -1,4 +1,4 @@
-import React, { createContext, useContext } from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
 import * as Google from "expo-google-app-auth";
 import {
   GoogleAuthProvider,
@@ -20,6 +20,31 @@ const config = {
 };
 
 export const AuthProvider = ({ children }) => {
+  const [error, setError] = useState(null);
+  const [user, setUser] = useState(null);
+  const [loadingInitial, setLoadingInitial] = useState(true);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUser(user);
+      } else {
+        setUser(null);
+      }
+
+      setLoadingInitial(false);
+    });
+  }, []);
+
+  const logout = () => {
+    setLoading(true);
+
+    signOut(auth)
+      .catch((error) => setError(error))
+      .finally(() => setLoading(false));
+  };
+
   const signInWithGoogle = async () => {
     await Google.logInAsync(config)
       .then(async (logInResult) => {
@@ -36,12 +61,15 @@ export const AuthProvider = ({ children }) => {
 
         return Promise.reject();
       })
-      .catch((error) => setError(error));
+      .catch((error) => setError(error))
+      .finally(() => setLoading(false));
   };
 
   return (
-    <AuthContext.Provider value={{ user: null, signInWithGoogle }}>
-      {children}
+    <AuthContext.Provider
+      value={{ user, loading, error, signInWithGoogle, logout }}
+    >
+      {!loadingInitial && children}
     </AuthContext.Provider>
   );
 };
