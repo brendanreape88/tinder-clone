@@ -20,8 +20,11 @@ import {
   setDoc,
   query,
   where,
+  getDoc,
+  serverTimestamp,
 } from "@firebase/firestore";
 import { db } from "../firebase";
+import generateId from "../lib/generateId";
 
 const HomeScreen = () => {
   const navigation = useNavigation();
@@ -44,11 +47,11 @@ const HomeScreen = () => {
     let unsub;
 
     const fetchCards = async () => {
-      const passes = getDocs(collection(db, "users", user.uid, "passes")).then(
-        (snapshot) => snapshot.docs.map((doc) => doc.id)
-      );
+      const passes = await getDocs(
+        collection(db, "users", user.uid, "passes")
+      ).then((snapshot) => snapshot.docs.map((doc) => doc.id));
 
-      const matches = getDocs(
+      const matches = await getDocs(
         collection(db, "users", user.uid, "matches")
       ).then((snapshot) => snapshot.docs.map((doc) => doc.id));
 
@@ -75,7 +78,7 @@ const HomeScreen = () => {
 
     fetchCards();
     return unsub;
-  }, []);
+  }, [db]);
 
   const swipeLeft = async (cardIndex) => {
     if (!profiles[cardIndex]) return;
@@ -90,9 +93,44 @@ const HomeScreen = () => {
     if (!profiles[cardIndex]) return;
 
     const userSwiped = profiles[cardIndex];
-    console.log(`You swiped MATCH on ${userSwiped.displayName}`);
 
-    setDoc(doc(db, "users", user.uid, "matches", userSwiped.id), userSwiped);
+    const loggedInProfile = await (await getDocs(db, "users", user.uid)).data();
+
+    // Check if the user swiped on you...
+    getDoc(doc(db, "users", userSwiped.id, "swipes", user.uid)).then(
+      (documentSnapshot) => {
+        if (documentSnapshot.exists()) {
+          // User has matched with you before you matched with them...
+          console.log(`Hooray, you MATCHED with ${userSwiped.displayName}`);
+          setDoc(
+            doc(db, "users", user.uid, "likes", userSwiped.id),
+            userSwiped
+          );
+
+          // CREATE MATCH!
+          setDoc(doc(db, "matches", generateId(user.uid, userSwiped.id)), {
+            users: {
+              [user.uid]: loggedInProfile,
+              [userSwiped.id]: userSwiped,
+            },
+            usersMatched: [user.uid, userSwiped.id],
+            timestamp: serverTimestamp(),
+          });
+
+          navigation.navigate("Match", {
+            loggedInProfile,
+            userSwiped,
+          });
+        } else {
+          // User has swiped as first interaction between the two or didn't get swiped on...
+          console.log(`You swiped LIKE on ${userSwiped.displayName}`);
+          setDoc(
+            doc(db, "users", user.uid, "likes", userSwiped.id),
+            userSwiped
+          );
+        }
+      }
+    );
   };
 
   return (
