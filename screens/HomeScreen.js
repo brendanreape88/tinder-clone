@@ -33,7 +33,6 @@ const HomeScreen = () => {
   const swiperRef = useRef(null);
 
   // my pic https://i.ibb.co/CsbSFVN/psych.jpg
-  console.log("profiles", profiles);
 
   useLayoutEffect(() => {
     onSnapshot(doc(db, "users", user.uid), (snapshot) => {
@@ -94,10 +93,12 @@ const HomeScreen = () => {
 
     const userSwiped = profiles[cardIndex];
 
-    const loggedInProfile = await (await getDocs(db, "users", user.uid)).data();
+    const loggedInProfile = await (
+      await getDoc(doc(db, "users", user.uid))
+    ).data();
 
     // Check if the user swiped on you...
-    getDoc(doc(db, "users", userSwiped.id, "swipes", user.uid)).then(
+    getDoc(doc(db, "users", userSwiped.id, "likes", user.uid)).then(
       (documentSnapshot) => {
         if (documentSnapshot.exists()) {
           // User has matched with you before you matched with them...
