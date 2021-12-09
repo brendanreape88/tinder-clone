@@ -5,9 +5,9 @@
     "description": "This Tinder clone is a demo app showcasing Tinder's most essential features, including: swiping, matching, reat-time messaging, and profile modification. If you'd like to have your own custom dating app built, contact me at: brendan@theappcat.com",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/tinder-icon.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/tinder-splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
