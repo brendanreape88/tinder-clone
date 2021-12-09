@@ -46,9 +46,9 @@ const ChatRow = ({ matchDetails }) => {
         source={{ uri: matchedUserInfo?.photoURL }}
       />
 
-      <View>
+      <View style={{ flex: 1 }}>
         <Text>{matchedUserInfo?.displayName}</Text>
-        <Text>{lastMessage || "Say hello! 👋"}</Text>
+        <Text numberOfLines={1}>{lastMessage || "Say hello! 👋"}</Text>
       </View>
     </TouchableOpacity>
   );
