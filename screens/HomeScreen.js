@@ -29,6 +29,7 @@ import generateId from "../lib/generateId";
 const HomeScreen = () => {
   const navigation = useNavigation();
   const { user, logout } = useAuth();
+  const [loggedInProfile, setLoggedInProfile] = useState(null);
   const [profiles, setProfiles] = useState([]);
   const swiperRef = useRef(null);
   const { params } = useRoute();
@@ -78,6 +79,12 @@ const HomeScreen = () => {
     return unsub;
   }, [db]);
 
+  useEffect(() => {
+    getDoc(doc(db, "users", user.uid)).then((doc) => {
+      setLoggedInProfile(doc.data());
+    });
+  }, [user]);
+
   const swipeLeft = async (cardIndex) => {
     if (!profiles[cardIndex]) return;
 
@@ -92,9 +99,9 @@ const HomeScreen = () => {
 
     const userSwiped = profiles[cardIndex];
 
-    const loggedInProfile = await (
-      await getDoc(doc(db, "users", user.uid))
-    ).data();
+    // const loggedInProfile = await (
+    //   await getDoc(doc(db, "users", user.uid))
+    // ).data();
 
     // Check if the user swiped on you...
     getDoc(doc(db, "users", userSwiped.id, "likes", user.uid)).then(
@@ -140,10 +147,19 @@ const HomeScreen = () => {
         <TouchableOpacity onPress={logout}>
           <Image
             style={tw("h-10 w-10 rounded-full")}
-            source={{ uri: params?.newPhoto || user.photoURL }}
+            source={{
+              uri:
+                params?.newPhoto || loggedInProfile?.photoURL || user.photoURL,
+            }}
           />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate("Modal")}>
+        <TouchableOpacity
+          onPress={() =>
+            navigation.navigate("Modal", {
+              loggedInProfile,
+            })
+          }
+        >
           <Image
             style={tw("h-14 w-14")}
             resizeMode="contain"

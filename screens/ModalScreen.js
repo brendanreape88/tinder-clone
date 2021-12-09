@@ -1,5 +1,5 @@
 import { doc, getDoc, serverTimestamp, setDoc } from "@firebase/firestore";
-import { useNavigation } from "@react-navigation/core";
+import { useNavigation, useRoute } from "@react-navigation/core";
 import React, { useEffect, useState } from "react";
 import {
   View,
@@ -19,6 +19,7 @@ import * as ImagePicker from "expo-image-picker";
 const ModalScreen = () => {
   const { user } = useAuth();
   const navigation = useNavigation();
+  const { params } = useRoute();
   const [image, setImage] = useState(null);
   const [job, setJob] = useState(null);
   const [age, setAge] = useState(null);
@@ -26,13 +27,10 @@ const ModalScreen = () => {
   const incompleteForm = !image || !job || !age;
 
   useEffect(() => {
-    let loggedInProfile;
-    getDoc(doc(db, "users", user.uid)).then((doc) => {
-      loggedInProfile = doc.data();
-      setImage(loggedInProfile.photoURL);
-      setJob(loggedInProfile.job);
-      setAge(loggedInProfile.age);
-    });
+    console.log({ params });
+    setImage(params.loggedInProfile.photoURL);
+    setJob(params.loggedInProfile.job);
+    setAge(params.loggedInProfile.age);
   }, [user]);
 
   useEffect(() => {
