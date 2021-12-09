@@ -21,6 +21,8 @@ const config = {
     "838678235152-smuih0ei5n7iba28s9l9h3f5p01name6.apps.googleusercontent.com",
   iosClientId:
     "838678235152-tc36mv0vjmfu5ger3ju89ks77h2g32o0.apps.googleusercontent.com",
+  webClientId:
+    "838678235152-smuih0ei5n7iba28s9l9h3f5p01name6.apps.googleusercontent.com",
   scopes: ["profile", "email"],
   permissions: ["public_profile", "email", "gender", "location"],
 };
