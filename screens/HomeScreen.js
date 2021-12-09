@@ -32,9 +32,6 @@ const HomeScreen = () => {
   const [profiles, setProfiles] = useState([]);
   const swiperRef = useRef(null);
   const { params } = useRoute();
-  console.log({ params });
-
-  // my pic https://i.ibb.co/CsbSFVN/psych.jpg
 
   useLayoutEffect(() => {
     onSnapshot(doc(db, "users", user.uid), (snapshot) => {
