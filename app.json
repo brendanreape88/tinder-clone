@@ -1,7 +1,8 @@
 {
   "expo": {
-    "name": "tinder-clone",
+    "name": "Tinder Clone",
     "slug": "tinder-clone",
+    "description": "This Tinder clone is a demo app showcasing Tinder's most essential features, including: swiping, matching, reat-time messaging, and profile modification. If you'd like to have your own custom dating app built, contact me at: brendan@theappcat.com",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -13,9 +14,7 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },
