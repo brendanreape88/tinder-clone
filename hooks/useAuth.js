@@ -17,6 +17,8 @@ import { auth } from "../firebase";
 const AuthContext = createContext({});
 
 const config = {
+  expoClientId:
+    "838678235152-9t73sgvfpsooetfrucooji3isnfau8qk.apps.googleusercontent.com",
   androidClientId:
     "838678235152-smuih0ei5n7iba28s9l9h3f5p01name6.apps.googleusercontent.com",
   iosClientId:
