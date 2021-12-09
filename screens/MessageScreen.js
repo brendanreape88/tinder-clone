@@ -69,7 +69,7 @@ const MessageScreen = () => {
         title={
           getMatchedUserInfo(matchDetails?.item.users, user.uid).displayName
         }
-        callEnabled
+        // callEnabled
       />
 
       <KeyboardAvoidingView
@@ -99,14 +99,21 @@ const MessageScreen = () => {
         )}
       >
         <TextInput
-          style={tw("h-10 text-lg")}
+          style={tw("h-10 text-lg w-4/5")}
           placeholder="Send Message..."
           onChangeText={setInput}
           onSubmitEditing={sendMessage}
           value={input}
         />
 
-        <Button onPress={sendMessage} title="Send" color="#FF5864" />
+        <Button
+          style={{
+            backgroundColor: "red",
+          }}
+          onPress={sendMessage}
+          title="Send"
+          color="#FF5864"
+        />
       </View>
     </SafeAreaView>
   );

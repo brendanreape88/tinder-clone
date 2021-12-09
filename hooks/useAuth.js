@@ -60,8 +60,6 @@ export const AuthProvider = ({ children }) => {
             idToken,
             accessToken
           );
-          console.log("auth", auth);
-          console.log("credential", credential);
           await signInWithCredential(auth, credential);
         }
 
