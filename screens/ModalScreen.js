@@ -1,6 +1,6 @@
-import { doc, serverTimestamp, setDoc } from "@firebase/firestore";
+import { doc, getDoc, serverTimestamp, setDoc } from "@firebase/firestore";
 import { useNavigation } from "@react-navigation/core";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, Image, TextInput, TouchableOpacity } from "react-native";
 import tw from "tailwind-rn";
 import useAuth from "../hooks/useAuth";
@@ -14,6 +14,16 @@ const ModalScreen = () => {
   const [age, setAge] = useState(null);
 
   const incompleteForm = !image || !job || !age;
+
+  useEffect(() => {
+    let loggedInProfile;
+    getDoc(doc(db, "users", user.uid)).then((doc) => {
+      loggedInProfile = doc.data();
+      setImage(loggedInProfile.photoURL);
+      setJob(loggedInProfile.job);
+      setAge(loggedInProfile.age);
+    });
+  }, [user]);
 
   const updateUserProfile = () => {
     setDoc(doc(db, "users", user.uid), {
@@ -51,7 +61,7 @@ const ModalScreen = () => {
         value={image}
         onChangeText={setImage}
         style={tw("text-center text-xl pb-2")}
-        placeholder="Enter a Profile Pic URL"
+        placeholder={image || "Enter a Profile Pic URL"}
       />
 
       <Text style={tw("text-center p-4 font-bold text-red-400")}>
@@ -61,7 +71,7 @@ const ModalScreen = () => {
         value={job}
         onChangeText={setJob}
         style={tw("text-center text-xl pb-2")}
-        placeholder="Enter your occupation"
+        placeholder={job || "Enter your occupation"}
       />
 
       <Text style={tw("text-center p-4 font-bold text-red-400")}>
@@ -71,7 +81,7 @@ const ModalScreen = () => {
         value={age}
         onChangeText={setAge}
         style={tw("text-center text-xl pb-2")}
-        placeholder="Enter your age"
+        placeholder={age || "Enter your age"}
         keyboardType="numeric"
         maxLength={2}
       />
