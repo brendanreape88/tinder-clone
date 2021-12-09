@@ -35,7 +35,9 @@ const ModalScreen = () => {
       timestamp: serverTimestamp(),
     })
       .then(() => {
-        navigation.navigate("Home");
+        navigation.navigate("Home", {
+          newPhoto: image,
+        });
       })
       .catch((error) => {
         alert(error.message);

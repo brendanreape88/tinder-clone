@@ -1,4 +1,4 @@
-import { useNavigation } from "@react-navigation/core";
+import { useNavigation, useRoute } from "@react-navigation/core";
 import React, { useRef, useState, useLayoutEffect, useEffect } from "react";
 import {
   View,
@@ -31,6 +31,8 @@ const HomeScreen = () => {
   const { user, logout } = useAuth();
   const [profiles, setProfiles] = useState([]);
   const swiperRef = useRef(null);
+  const { params } = useRoute();
+  console.log({ params });
 
   // my pic https://i.ibb.co/CsbSFVN/psych.jpg
 
@@ -141,7 +143,7 @@ const HomeScreen = () => {
         <TouchableOpacity onPress={logout}>
           <Image
             style={tw("h-10 w-10 rounded-full")}
-            source={{ uri: user.photoURL }}
+            source={{ uri: params?.newPhoto || user.photoURL }}
           />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate("Modal")}>
