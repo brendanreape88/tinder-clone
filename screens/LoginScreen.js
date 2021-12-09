@@ -29,7 +29,7 @@ const LoginScreen = () => {
           onPress={signInWithGoogle}
         >
           <Text style={tw("font-semibold text-center")}>
-            Sign in & get swiping
+            Sign in with Google
           </Text>
         </TouchableOpacity>
       </ImageBackground>
