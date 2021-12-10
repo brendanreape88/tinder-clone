@@ -7,6 +7,8 @@ import React, {
 } from "react";
 import * as Google from "expo-google-app-auth";
 import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
   GoogleAuthProvider,
   onAuthStateChanged,
   signInWithCredential,
@@ -55,6 +57,33 @@ export const AuthProvider = ({ children }) => {
       .finally(() => setLoading(false));
   };
 
+  const createAccount = async (email, password) => {
+    await createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed in
+        setUser(userCredential.user);
+        // ...
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // ..
+      });
+  };
+
+  const signIn = async (email, password) => {
+    await signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed in
+        setUser(userCredential.user);
+        // ...
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+      });
+  };
+
   const signInWithGoogle = async () => {
     await Google.logInAsync(config)
       .then(async (logInResult) => {
@@ -80,6 +109,8 @@ export const AuthProvider = ({ children }) => {
       error,
       signInWithGoogle,
       logout,
+      createAccount,
+      signIn,
     }),
     [user, loading, error]
   );

@@ -1,39 +1,58 @@
 import { useNavigation } from "@react-navigation/core";
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
-  Button,
-  ImageBackground,
   TouchableOpacity,
+  KeyboardAvoidingView,
+  Platform,
+  TextInput,
 } from "react-native";
 import useAuth from "../hooks/useAuth";
 import tw from "tailwind-rn";
 
 const LoginScreen = () => {
-  const { signInWithGoogle, loading } = useAuth();
+  const { signInWithGoogle, loading, createAccount, signIn } = useAuth();
   const navigation = useNavigation();
+  const [email, setEmail] = useState(null);
+  const [password, setPassword] = useState(null);
 
   return (
-    <View style={tw("flex-1")}>
-      <ImageBackground
-        resizeMode="cover"
-        style={tw("flex-1")}
-        source={{ uri: "https://tinder.com/static/tinder.png" }}
-      >
+    <KeyboardAvoidingView
+      behavior={Platform.os === "ios" ? "padding" : "height"}
+      style={tw("flex-1 justify-center items-center")}
+      keyboardVerticalOffset={10}
+    >
+      <View style={tw("w-4/5 justify-center items-center")}>
+        <TextInput
+          style={tw("bg-white w-full h-8 mb-5")}
+          placeholder="Email"
+          value={email}
+          onChangeText={setEmail}
+        />
+        <TextInput
+          style={tw("bg-white w-full h-8 mb-5")}
+          placeholder="Password"
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry
+        />
+      </View>
+      <View style={tw("flex-row w-4/5")}>
         <TouchableOpacity
-          style={[
-            tw("absolute bottom-40 w-52 bg-white p-4 rounded-2xl"),
-            { marginHorizontal: "25%" },
-          ]}
-          onPress={signInWithGoogle}
+          style={tw("w-1/2 justify-center items-center")}
+          onPress={() => signIn(email, password)}
         >
-          <Text style={tw("font-semibold text-center")}>
-            Sign in with Google
-          </Text>
+          <Text>Login</Text>
         </TouchableOpacity>
-      </ImageBackground>
-    </View>
+        <TouchableOpacity
+          style={tw("w-1/2 justify-center items-center")}
+          onPress={() => createAccount(email, password)}
+        >
+          <Text>Register</Text>
+        </TouchableOpacity>
+      </View>
+    </KeyboardAvoidingView>
   );
 };
 

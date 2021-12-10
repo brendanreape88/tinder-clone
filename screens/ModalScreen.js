@@ -27,10 +27,13 @@ const ModalScreen = () => {
   const incompleteForm = !image || !job || !age;
 
   useEffect(() => {
-    console.log({ params });
-    setImage(params.loggedInProfile.photoURL);
-    setJob(params.loggedInProfile.job);
-    setAge(params.loggedInProfile.age);
+    if (params?.loggedInProfile) {
+      setImage(params.loggedInProfile.photoURL);
+      setJob(params.loggedInProfile.job);
+      setAge(params.loggedInProfile.age);
+    } else {
+      return;
+    }
   }, [user]);
 
   useEffect(() => {
