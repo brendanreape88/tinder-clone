@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import {
   View,
   SafeAreaView,
-  Text,
   TextInput,
   Button,
   KeyboardAvoidingView,
