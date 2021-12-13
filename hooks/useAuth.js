@@ -72,6 +72,9 @@ export const AuthProvider = ({ children }) => {
         if (errorCode === "auth/email-already-in-use") {
           setError("Email already in use.");
         }
+        if (errorCode === "auth/weak-password") {
+          setError("Password should be at least 6 characters");
+        }
         // ..
       });
   };

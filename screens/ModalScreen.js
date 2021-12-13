@@ -92,7 +92,7 @@ const ModalScreen = () => {
   const updateUserProfile = () => {
     setDoc(doc(db, "users", user.uid), {
       id: user.uid,
-      displayName: user.displayName,
+      displayName: name,
       photoURL: downloadURL,
       job: job,
       age: age,
