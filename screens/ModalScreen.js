@@ -119,9 +119,9 @@ const ModalScreen = () => {
         >
           <>
             <Image
-              style={tw("h-20 w-full")}
+              style={tw("h-20 w-32")}
               resizeMode="contain"
-              source={{ uri: "https://links.papareact.com/2pf" }}
+              source={require("../tinder-banner.png")}
             />
 
             <Text style={tw("text-xl text-gray-500 font-bold")}>
