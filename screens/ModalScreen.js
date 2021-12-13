@@ -9,6 +9,9 @@ import {
   TextInput,
   TouchableOpacity,
   Platform,
+  TouchableWithoutFeedback,
+  Keyboard,
+  KeyboardAvoidingView,
 } from "react-native";
 import tw from "tailwind-rn";
 import useAuth from "../hooks/useAuth";
@@ -107,75 +110,85 @@ const ModalScreen = () => {
 
   return (
     <View style={tw("flex-1 items-center pt-3")}>
-      <Image
-        style={tw("h-20 w-full")}
-        resizeMode="contain"
-        source={{ uri: "https://links.papareact.com/2pf" }}
-      />
-
-      <Text style={tw("text-xl text-gray-500 font-bold")}>
-        Welcome {user.displayName}
-      </Text>
-
-      <ScrollView
-        style={tw("flex-1")}
-        contentContainerStyle={tw("items-center")}
-      >
-        <Text style={tw("text-center p-4 font-bold text-red-400")}>
-          Step 1: Your Name
-        </Text>
-        <TextInput
-          value={name}
-          onChangeText={setName}
-          style={tw("text-center text-xl pb-2")}
-          placeholder={name || "Enter your full name"}
-        />
-
-        <Text style={tw("text-center p-4 font-bold text-red-400")}>
-          Step 2: The Profile Pic
-        </Text>
-        <TouchableOpacity onPress={() => pickImage()}>
-          <Image
-            style={tw("h-32 w-32 rounded-full")}
-            source={{ uri: image || user.photoURL }}
-          />
-        </TouchableOpacity>
-
-        <Text style={tw("text-center p-4 font-bold text-red-400")}>
-          Step 3: The Job
-        </Text>
-        <TextInput
-          value={job}
-          onChangeText={setJob}
-          style={tw("text-center text-xl pb-2")}
-          placeholder={job || "Enter your occupation"}
-        />
-
-        <Text style={tw("text-center p-4 font-bold text-red-400")}>
-          Step 4: The Age
-        </Text>
-        <TextInput
-          value={age}
-          onChangeText={setAge}
-          style={tw("text-center text-xl pb-2")}
-          placeholder={age || "Enter your age"}
-          keyboardType="numeric"
-          maxLength={2}
-        />
-
-        <TouchableOpacity
-          disabled={incompleteForm}
-          onPress={updateUserProfile}
-          style={[
-            tw("my-8 w-64 p-3 rounded-xl"),
-            incompleteForm ? tw("bg-gray-400") : tw("bg-red-400"),
-          ]}
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          style={tw("flex-1 justify-center items-center")}
+          keyboardVerticalOffset={10}
         >
-          <Text style={tw("text-center text-white text-xl")}>
-            Update Profile
-          </Text>
-        </TouchableOpacity>
-      </ScrollView>
+          <>
+            <Image
+              style={tw("h-20 w-full")}
+              resizeMode="contain"
+              source={{ uri: "https://links.papareact.com/2pf" }}
+            />
+
+            <Text style={tw("text-xl text-gray-500 font-bold")}>
+              Welcome {user.displayName}
+            </Text>
+
+            <ScrollView
+              style={tw("flex-1")}
+              contentContainerStyle={tw("items-center")}
+            >
+              <Text style={tw("text-center p-4 font-bold text-red-400")}>
+                Step 1: Your Name
+              </Text>
+              <TextInput
+                value={name}
+                onChangeText={setName}
+                style={tw("text-center text-xl pb-2")}
+                placeholder={name || "Enter your full name"}
+              />
+
+              <Text style={tw("text-center p-4 font-bold text-red-400")}>
+                Step 2: The Profile Pic
+              </Text>
+              <TouchableOpacity onPress={() => pickImage()}>
+                <Image
+                  style={tw("h-32 w-32 rounded-full")}
+                  source={{ uri: image || user.photoURL }}
+                />
+              </TouchableOpacity>
+
+              <Text style={tw("text-center p-4 font-bold text-red-400")}>
+                Step 3: The Job
+              </Text>
+              <TextInput
+                value={job}
+                onChangeText={setJob}
+                style={tw("text-center text-xl pb-2")}
+                placeholder={job || "Enter your occupation"}
+              />
+
+              <Text style={tw("text-center p-4 font-bold text-red-400")}>
+                Step 4: The Age
+              </Text>
+              <TextInput
+                value={age}
+                onChangeText={setAge}
+                style={tw("text-center text-xl pb-2")}
+                placeholder={age || "Enter your age"}
+                keyboardType="numeric"
+                maxLength={2}
+              />
+
+              <TouchableOpacity
+                disabled={incompleteForm}
+                onPress={updateUserProfile}
+                style={[
+                  tw("my-8 w-64 p-3 rounded-xl"),
+                  incompleteForm ? tw("bg-gray-400") : tw("bg-red-400"),
+                ]}
+              >
+                <Text style={tw("text-center text-white text-xl")}>
+                  Update Profile
+                </Text>
+              </TouchableOpacity>
+            </ScrollView>
+          </>
+        </KeyboardAvoidingView>
+      </TouchableWithoutFeedback>
     </View>
   );
 };

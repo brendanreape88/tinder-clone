@@ -51,7 +51,7 @@ const HomeScreen = () => {
       ).then((snapshot) => snapshot.docs.map((doc) => doc.id));
 
       const matches = await getDocs(
-        collection(db, "users", user.uid, "matches")
+        collection(db, "users", user.uid, "likes")
       ).then((snapshot) => snapshot.docs.map((doc) => doc.id));
 
       const passedUserIds = passes.length > 0 ? passes : ["test"];
