@@ -65,7 +65,7 @@ const MessageScreen = () => {
   return (
     <SafeAreaView style={tw("flex-1")}>
       <KeyboardAvoidingView
-        behavior={Platform.os === "ios" ? "padding" : "height"}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={tw("flex-1")}
         keyboardVerticalOffset={10}
       >
@@ -93,29 +93,29 @@ const MessageScreen = () => {
             />
           </>
         </TouchableWithoutFeedback>
-      </KeyboardAvoidingView>
-      <View
-        style={tw(
-          "flex-row justify-between bg-white items-center border-t border-gray-200 px-5 py-2"
-        )}
-      >
-        <TextInput
-          style={tw("h-10 text-lg w-4/5")}
-          placeholder="Send Message..."
-          onChangeText={setInput}
-          onSubmitEditing={sendMessage}
-          value={input}
-        />
+        <View
+          style={tw(
+            "flex-row justify-between bg-white items-center border-t border-gray-200 px-5 py-2"
+          )}
+        >
+          <TextInput
+            style={tw("h-10 text-lg w-4/5")}
+            placeholder="Send Message..."
+            onChangeText={setInput}
+            onSubmitEditing={sendMessage}
+            value={input}
+          />
 
-        <Button
-          style={{
-            backgroundColor: "red",
-          }}
-          onPress={sendMessage}
-          title="Send"
-          color="#FF5864"
-        />
-      </View>
+          <Button
+            style={{
+              backgroundColor: "red",
+            }}
+            onPress={sendMessage}
+            title="Send"
+            color="#FF5864"
+          />
+        </View>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };
