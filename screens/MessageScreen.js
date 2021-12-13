@@ -64,32 +64,34 @@ const MessageScreen = () => {
 
   return (
     <SafeAreaView style={tw("flex-1")}>
-      <Header
-        title={
-          getMatchedUserInfo(matchDetails?.item.users, user.uid).displayName
-        }
-        // callEnabled
-      />
-
       <KeyboardAvoidingView
         behavior={Platform.os === "ios" ? "padding" : "height"}
         style={tw("flex-1")}
         keyboardVerticalOffset={10}
       >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <FlatList
-            data={messages}
-            inverted={-1}
-            style={tw("pl-4")}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item: message }) =>
-              message.userId === user.uid ? (
-                <SenderMessage key={message.id} message={message} />
-              ) : (
-                <ReceiverMessage key={message.id} message={message} />
-              )
-            }
-          />
+          <>
+            <Header
+              title={
+                getMatchedUserInfo(matchDetails?.item.users, user.uid)
+                  .displayName
+              }
+              // callEnabled
+            />
+            <FlatList
+              data={messages}
+              inverted={-1}
+              style={tw("pl-4")}
+              keyExtractor={(item) => item.id}
+              renderItem={({ item: message }) =>
+                message.userId === user.uid ? (
+                  <SenderMessage key={message.id} message={message} />
+                ) : (
+                  <ReceiverMessage key={message.id} message={message} />
+                )
+              }
+            />
+          </>
         </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
       <View
