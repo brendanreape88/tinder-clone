@@ -50,29 +50,25 @@ const HomeScreen = () => {
         collection(db, "users", user.uid, "passes")
       ).then((snapshot) => snapshot.docs.map((doc) => doc.id));
 
-      const matches = await getDocs(
+      const likes = await getDocs(
         collection(db, "users", user.uid, "likes")
       ).then((snapshot) => snapshot.docs.map((doc) => doc.id));
 
       const passedUserIds = passes.length > 0 ? passes : ["test"];
-      const matchedUserIds = matches.length > 0 ? matches : ["test"];
+      const likedUserIds = likes.length > 0 ? likes : ["test"];
 
-      unsub = onSnapshot(
-        query(
-          collection(db, "users"),
-          where("id", "not-in", [...passedUserIds, ...matchedUserIds])
-        ),
-        (snapshot) => {
-          setProfiles(
-            snapshot.docs
-              .filter((doc) => doc.id !== user.uid)
-              .map((doc) => ({
-                id: doc.id,
-                ...doc.data(),
-              }))
-          );
-        }
-      );
+      unsub = onSnapshot(collection(db, "users"), (snapshot) => {
+        setProfiles(
+          snapshot.docs
+            .filter((doc) => doc.id !== user.uid)
+            .filter((doc) => !passedUserIds.includes(doc.id))
+            .filter((doc) => !likedUserIds.includes(doc.id))
+            .map((doc) => ({
+              id: doc.id,
+              ...doc.data(),
+            }))
+        );
+      });
     };
 
     fetchCards();
