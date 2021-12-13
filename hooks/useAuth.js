@@ -63,10 +63,15 @@ export const AuthProvider = ({ children }) => {
         // Signed in
         setUser(userCredential.user);
         // ...
+        setError(null);
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
+        console.log({ errorCode, errorMessage });
+        if (errorCode === "auth/email-already-in-use") {
+          setError("Email already in use.");
+        }
         // ..
       });
   };
@@ -77,10 +82,18 @@ export const AuthProvider = ({ children }) => {
         // Signed in
         setUser(userCredential.user);
         // ...
+        setError(null);
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
+        console.log({ errorCode, errorMessage });
+        if (errorCode === "auth/user-not-found") {
+          setError("Email not registered.");
+        }
+        if (errorCode === "auth/wrong-password") {
+          setError("Incorrect password.");
+        }
       });
   };
 
