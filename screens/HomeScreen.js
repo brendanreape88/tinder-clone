@@ -143,7 +143,12 @@ const HomeScreen = () => {
   return (
     <SafeAreaView style={tw("flex-1")}>
       {/* Header */}
-      <View style={tw("flex-row items-center justify-between px-5")}>
+      <View
+        style={[
+          tw("flex-row items-center justify-between px-5"),
+          { paddingTop: "6%" },
+        ]}
+      >
         <TouchableOpacity onPress={logout}>
           <Image
             style={tw("h-10 w-10 rounded-full")}
@@ -174,7 +179,7 @@ const HomeScreen = () => {
       {/* End of Header */}
 
       {/* Cards */}
-      <View style={tw("flex-1 -mt-6")}>
+      <View style={tw("flex-1 -mt-7")}>
         <Swiper
           ref={swiperRef}
           containerStyle={{ backgroundColor: "transparent" }}
@@ -253,7 +258,7 @@ const HomeScreen = () => {
                 <Text style={tw("font-bold pb-5")}>No more profiles</Text>
 
                 <Image
-                  style={tw("h-20 w-full")}
+                  style={tw("h-20 w-20")}
                   height={100}
                   width={100}
                   source={{ uri: "https://links.papareact.com/6gb" }}
@@ -264,7 +269,9 @@ const HomeScreen = () => {
         />
       </View>
 
-      <View style={tw("flex flex-row justify-evenly")}>
+      <View
+        style={[tw("flex flex-row justify-evenly"), { paddingBottom: "3%" }]}
+      >
         <TouchableOpacity
           onPress={() => swiperRef.current.swipeLeft()}
           style={tw(
