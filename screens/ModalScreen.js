@@ -25,8 +25,9 @@ const ModalScreen = () => {
   const [image, setImage] = useState(null);
   const [job, setJob] = useState(null);
   const [age, setAge] = useState(null);
+  const [downloadURL, setDownloadURL] = useState(null);
 
-  const incompleteForm = !name || !image || !job || !age;
+  const incompleteForm = !name || !downloadURL || !job || !age;
 
   useEffect(() => {
     if (params?.loggedInProfile) {
@@ -55,8 +56,8 @@ const ModalScreen = () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
-      aspect: [2, 4],
-      quality: 1,
+      aspect: [3, 4],
+      quality: 0.5,
     });
 
     if (!result.cancelled) {
@@ -79,9 +80,8 @@ const ModalScreen = () => {
       const imageRef = ref(storage, user.uid);
 
       await uploadBytes(imageRef, blob).then(async (snapshopt) => {
-        const downloadURL = await getDownloadURL(imageRef);
-        console.log("downloadURL", downloadURL);
-        setImage(downloadURL);
+        const URL = await getDownloadURL(imageRef);
+        setDownloadURL(URL);
       });
     }
   };
@@ -90,7 +90,7 @@ const ModalScreen = () => {
     setDoc(doc(db, "users", user.uid), {
       id: user.uid,
       displayName: user.displayName,
-      photoURL: image,
+      photoURL: downloadURL,
       job: job,
       age: age,
       timestamp: serverTimestamp(),
@@ -125,10 +125,10 @@ const ModalScreen = () => {
           Step 1: Your Name
         </Text>
         <TextInput
-          value={job}
-          onChangeText={setJob}
+          value={name}
+          onChangeText={setName}
           style={tw("text-center text-xl pb-2")}
-          placeholder={job || "Enter your full name"}
+          placeholder={name || "Enter your full name"}
         />
 
         <Text style={tw("text-center p-4 font-bold text-red-400")}>
