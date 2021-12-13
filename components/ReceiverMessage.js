@@ -12,7 +12,11 @@ const ReceiverMessage = ({ message }) => {
     >
       <Image
         style={tw("h-12 w-12 rounded-full absolute top-0 -left-14")}
-        source={{ uri: message.photoURL }}
+        source={
+          message.photoURL
+            ? { uri: message.photoURL }
+            : require("../avatar.png")
+        }
       />
       <Text style={tw("text-white")}>{message.message}</Text>
     </View>

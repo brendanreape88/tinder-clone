@@ -33,6 +33,8 @@ const HomeScreen = () => {
   const [profiles, setProfiles] = useState([]);
   const swiperRef = useRef(null);
   const { params } = useRoute();
+  const userPhoto =
+    params?.newPhoto || loggedInProfile?.photoURL || user.photoURL;
 
   useLayoutEffect(() => {
     onSnapshot(doc(db, "users", user.uid), (snapshot) => {
@@ -148,10 +150,7 @@ const HomeScreen = () => {
         <TouchableOpacity onPress={logout}>
           <Image
             style={tw("h-10 w-10 rounded-full")}
-            source={{
-              uri:
-                params?.newPhoto || loggedInProfile?.photoURL || user.photoURL,
-            }}
+            source={userPhoto ? { uri: userPhoto } : require("../avatar.png")}
           />
         </TouchableOpacity>
         <TouchableOpacity

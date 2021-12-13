@@ -26,11 +26,19 @@ const MatchScreen = () => {
       <View style={tw("flex-row justify-evenly mt-5")}>
         <Image
           style={tw("h-32 w-32 rounded-full")}
-          source={{ uri: loggedInProfile.photoURL }}
+          source={
+            loggedInProfile.photoURL
+              ? { uri: loggedInProfile.photoURL }
+              : require("../avatar.png")
+          }
         />
         <Image
           style={tw("h-32 w-32 rounded-full")}
-          source={{ uri: userSwiped.photoURL }}
+          source={
+            userSwiped.photoURL
+              ? { uri: userSwiped.photoURL }
+              : require("../avatar.png")
+          }
         />
       </View>
 

@@ -29,6 +29,7 @@ const ModalScreen = () => {
   const [job, setJob] = useState(null);
   const [age, setAge] = useState(null);
   const [downloadURL, setDownloadURL] = useState(null);
+  const userPhoto = image || user.photoURL;
 
   const incompleteForm = !name || !downloadURL || !job || !age;
 
@@ -147,7 +148,11 @@ const ModalScreen = () => {
               <TouchableOpacity onPress={() => pickImage()}>
                 <Image
                   style={tw("h-32 w-32 rounded-full")}
-                  source={{ uri: image || user.photoURL }}
+                  source={
+                    userPhoto
+                      ? { uri: image || user.photoURL }
+                      : require("../avatar.png")
+                  }
                 />
               </TouchableOpacity>
 
